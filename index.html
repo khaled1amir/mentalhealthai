@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            color: #007bff;
+            /* Match the button color */
+            margin-bottom: 20px;
+        }
+
+        #chatbox {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 500px;
+            /* Increased width */
+            height: 400px;
+            /* Increased height */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #messages {
+            padding: 10px;
+            flex: 1;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            /* Preserve spaces and line breaks */
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .chatbot-message {
+            text-align: left;
+            color: #007bff;
+            position: relative;
+        }
+
+        .typing-animation {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #007bff;
+            animation: typing 2s steps(40, end) 1s 1 normal both, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #007bff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Mental-Help AI</h1>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const responses = {
+            "hello": "Hi there! How can I help you?",
+            "hi": "Hi there! How can I help you?",
+            "how are you": "I'm doing well! How about you?",
+            "what is your name": "My name is MentalPal.",
+            "what's your name": "My name is MentalPal.",
+            "i feel so stressed today": "I'm so sorry to hear that what makes you stressed?",
+            "i have a lot of troubles with my manager at work": "I'm sorry to hear that, Do You want me to help you with your situation?",
+            "sure": "If you're having trouble with your manager at work, start by identifying and clearly defining the specific issues and try to understand your manager’s perspective. Arrange a one-on-one meeting to discuss your concerns openly and professionally, being specific about the problems and their impact on your work. Work together to find practical solutions and set clear, actionable goals. Document important interactions and follow up in writing to confirm agreements. Regularly seek feedback on your performance, and consider finding a mentor or trusted colleague for additional support. Improving your conflict resolution and professional skills can also help in managing and resolving workplace challenges.",
+            "thank you that helped me": "I'm glad to hear that, and I'm always there for you :)",
+            "bye": "Goodbye! Have a great day!"
+        };
+
+        document.getElementById('send-button').addEventListener('click', () => {
+            const userInput = document.getElementById('user-input').value.toLowerCase();
+            if (userInput != '') {
+                addMessage(userInput, 'user-message');
+                document.getElementById('user-input').value = '';
+
+                const response = responses[userInput] || "Sorry, I don't understand that.";
+                addMessage(response, 'chatbot-message');
+            } else {
+                window.alert("You have to write a message");
+            }
+
+        });
+
+        function addMessage(text, className) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', className);
+            messageElement.textContent = text;
+            document.getElementById('messages').appendChild(messageElement);
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        }
+
+        function addTypingMessage(text, className) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', className);
+            const typingElement = document.createElement('div');
+            typingElement.classList.add('typing-animation');
+            typingElement.textContent = text;
+            messageElement.appendChild(typingElement);
+            document.getElementById('messages').appendChild(messageElement);
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        }
+    </script>
+</body>
+
+</html>
